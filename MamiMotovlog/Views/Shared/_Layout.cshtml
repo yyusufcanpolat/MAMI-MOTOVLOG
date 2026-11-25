@@ -1,0 +1,86 @@
+@inject IConfiguration RiderConfig
+@inject MamiMotovlog.Data.SiteDbContext SiteDb
+@{
+    var settings = await SiteDb.Settings.AsNoTracking().FirstOrDefaultAsync() ?? new SiteSettings();
+    var pageTitle = (string?)ViewData["Title"] ?? "Motovlog";
+    var isAdmin = Context.Request.Path.StartsWithSegments("/yonetim");
+    var desc = (string?)ViewData["Description"] ?? "Muhammet'in CFMOTO 450SR ile çıktığı yollar, motovlog videoları, fotoğraf albümleri ve gezi notları.";
+}
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f7f7f2" />
+  <meta name="color-scheme" content="light" />
+  <meta name="description" content="@desc" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="MAMI MOTOVLOG" />
+  <meta property="og:title" content="@pageTitle | MAMI MOTOVLOG" />
+  <meta property="og:description" content="@desc" />
+  <meta property="og:image" content="https://mamimotovlog.com/images/muhammet-450sr.webp" />
+  @if (!isAdmin) { <link rel="canonical" href="https://mamimotovlog.com@(Context.Request.Path)" /> }
+  @if (isAdmin) { <meta name="robots" content="noindex, nofollow" /> }
+  <title>@pageTitle | MAMI MOTOVLOG</title>
+  <link rel="icon" href="~/favicon.svg" type="image/svg+xml" />
+  @if(RiderConfig.GetValue<bool>("Rider:Enabled")){<link rel="manifest" href="/manifest.webmanifest" />}
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/rider.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/mono.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/editorial-v4.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/journal-v5.css" asp-append-version="true" />
+  <link rel="stylesheet" href="/css/v52-ui.css" asp-append-version="true" />
+  @await RenderSectionAsync("Head", required: false)
+</head>
+<body class="@(isAdmin ? "admin-body" : "public-body")">
+  <div class="site-noise" aria-hidden="true"></div>
+  <a class="skip-link" href="#main-content">İçeriğe geç</a>
+  <header class="site-header" id="site-header">
+    <div class="nav-wrap shell">
+      <a class="brand" href="/" aria-label="MAMI MOTOVLOG ana sayfa">
+        <img src="~/logo-bike.svg" class="brand-bike" alt="450SR spor motosiklet logosu" />
+        <span class="brand-type">MAMI<span class="brand-accent">.</span><small>MOTOVLOG</small></span>
+      </a>
+      <button class="menu-toggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
+      <nav id="site-nav" class="site-nav" aria-label="Ana menü">
+        <a href="/" class="@(Context.Request.Path == "/" ? "active" : "")">Ana sayfa</a>
+        <a href="/videolar" class="@(Context.Request.Path.StartsWithSegments("/videolar") ? "active" : "")">Videolar</a>
+        <a href="/rotalar" class="@(Context.Request.Path.StartsWithSegments("/rotalar") ? "active" : "")">Yol günlüğü</a>
+        <a href="/galeri" class="@(Context.Request.Path.StartsWithSegments("/galeri") ? "active" : "")">Galeri</a>
+        <a href="/hakkimda" class="@(Context.Request.Path.StartsWithSegments("/hakkimda") ? "active" : "")">Hakkımda</a>
+        @if (RiderConfig.GetValue<bool>("Rider:Enabled")) {
+          <a href="/rota-planlayici" class="@(Context.Request.Path.StartsWithSegments("/rota-planlayici") ? "active" : "")">Rota planla</a>
+          <a href="/garaj" class="@(Context.Request.Path.StartsWithSegments("/garaj") ? "active" : "")">Garajım</a>
+        }
+        <a class="nav-contact" href="/iletisim">İletişim <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content">@RenderBody()</main>
+  @if (!isAdmin)
+  {
+    <footer class="site-footer">
+      <div class="shell footer-top">
+        <div>
+          <a class="brand footer-brand" href="/"><img src="~/logo-bike.svg" class="brand-bike" alt=""/><span class="brand-type">MAMI<span class="brand-accent">.</span><small>MOTOVLOG</small></span></a>
+          <p>Gittiğim yolları, yakaladığım anları ve geride kalan kilometreleri paylaşıyorum.</p>
+        </div>
+        <div class="footer-links"><span>KEŞFET</span><a href="/videolar">Motovlog videoları</a><a href="/rotalar">Gezi rotaları</a><a href="/rehber">Yol rehberi</a><a href="/galeri">Fotoğraf albümleri</a></div>
+        <div class="footer-links"><span>BAĞLANTI</span><a href="/hakkimda">Hakkımda</a><a href="/motosikletim">CFMOTO 450SR</a><a href="/ekipmanlarim">Ekipmanlarım</a><a href="/iletisim">İletişim</a></div>
+        <div class="footer-links"><span>TAKİP ET</span>
+          @if (!string.IsNullOrEmpty(settings.YouTubeChannelUrl)) { <a href="@settings.YouTubeChannelUrl" target="_blank" rel="noopener noreferrer">YouTube ↗</a> }
+          @if (!string.IsNullOrEmpty(settings.InstagramUrl)) { <a href="@settings.InstagramUrl" target="_blank" rel="noopener noreferrer">Instagram ↗</a> }
+          @if (!string.IsNullOrEmpty(settings.TikTokUrl)) { <a href="@settings.TikTokUrl" target="_blank" rel="noopener noreferrer">TikTok ↗</a> }
+          @if (!string.IsNullOrEmpty(settings.ContactEmail)) { <a href="mailto:@settings.ContactEmail">E-posta ↗</a> }
+          @if (string.IsNullOrEmpty(settings.YouTubeChannelUrl) && string.IsNullOrEmpty(settings.InstagramUrl)) { <a href="/iletisim">Bana ulaş ↗</a> }
+        </div>
+      </div>
+      <div class="shell footer-bottom"><span>© @DateTime.Now.Year MAMI MOTOVLOG</span><span>İYİ YOLLAR, GÜZEL HİKÂYELER.</span></div>
+    </footer>
+  }
+  <script src="~/js/site.js" asp-append-version="true" defer></script>
+  @if(RiderConfig.GetValue<bool>("Rider:Enabled")){<script src="/js/rider-pwa.js" asp-append-version="true" defer></script>}
+  <script src="/js/v52-ui.js" asp-append-version="true" defer></script>
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

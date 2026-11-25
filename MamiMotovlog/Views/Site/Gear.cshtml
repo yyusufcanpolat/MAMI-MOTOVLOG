@@ -1,0 +1,7 @@
+@model List<Gear>
+<section class="page-hero shell"><span class="overline">SÜRÜŞ ARKADAŞLARIM / EKİPMAN</span><h1>Hazırlık tamam.</h1><p>Bir yolculuğun kamera arkasındaki kahramanları. Kullandığım ekipmanlar ve kişisel deneyimlerim.</p></section>
+<section class="shell gear-list">
+@foreach (var item in Model) {
+  <article class="gear-item"><div class="gear-no">@item.Category <span>↗</span></div><div class="gear-data"><h2>@item.Name</h2><p class="lead-text">@item.Summary</p><p class="preline">@item.Review</p>@if (!string.IsNullOrEmpty(item.ExternalUrl)) { <a class="text-link" href="@item.ExternalUrl" target="_blank" rel="noopener noreferrer">ÜRETİCİ SAYFASI <span>↗</span></a> }</div><div class="gear-icon">@(item.Category == "KASK" ? "◈" : item.Category == "KAMERA" ? "▣" : "✳")</div></article>
+}
+</section>

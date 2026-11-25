@@ -1,0 +1,8 @@
+@model RiderLoginVm
+@{ ViewData["Title"] = "Rider Hub · Giriş"; }
+<section class="rider-shell"><div class="rider-intro"><p class="overline">RIDER HUB / GÜVENLİ GİRİŞ</p><h1>YOLA <em>DEVAM.</em></h1><p>Motorların, rotaların ve kayıtların burada.</p></div>
+<form method="post" class="rider-panel rider-form rider-auth" asp-action="Login" asp-controller="RiderAccount">@Html.AntiForgeryToken()
+ <h2>Giriş yap</h2>@if(TempData["RiderInfo"] is string msg){<div class="rider-flash">@msg</div>}<div asp-validation-summary="All" class="rider-errors"></div>
+ <label>E-posta<input asp-for="Email" type="email" autocomplete="email" /></label><label>Şifre<input asp-for="Password" type="password" autocomplete="current-password" /></label>
+ <button class="rider-btn" type="submit">GARAJIMA GİT ↗</button><p><a href="/uye/sifremi-unuttum">Şifremi unuttum</a> · <a href="/uye/kayit">Yeni hesap oluştur</a></p>
+</form><form class="rider-panel rider-form rider-auth" method="post" action="/uye/dogrulama-tekrar">@Html.AntiForgeryToken()<p>Doğrulama e-postası gelmedi mi?</p><label>E-posta<input name="email" type="email" maxlength="180" required /></label><button class="rider-btn rider-btn-ghost">DOĞRULAMAYI YENİDEN GÖNDER</button></form></section>

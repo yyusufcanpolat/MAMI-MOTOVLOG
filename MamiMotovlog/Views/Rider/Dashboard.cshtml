@@ -1,0 +1,22 @@
+@model RiderDashboardVm
+@{ ViewData["Title"] = "Rider Hub · Garajım"; }
+<section class="rider-shell">
+ <div class="rider-intro"><p class="overline">MAMI / RIDER HUB</p><h1>MERHABA, <em>SÜRÜCÜ.</em></h1><p>@Model.DisplayName · Motosikletin ve yolculuklarının tek kontrol noktası.</p></div>
+ @await Html.PartialAsync("_RiderMenu")
+ @if(TempData["RiderInfo"] is string msg){<div class="rider-flash">@msg</div>}
+ <div class="rider-stat-grid"><div><span>MOTOSİKLET</span><strong>@Model.Bikes.Count</strong><small>garajda</small></div><div><span>TAMAMLANAN SÜRÜŞ</span><strong>@Model.CompletedTripCount</strong><small>toplam</small></div><div><span>TOPLAM SÜRÜŞ</span><strong>@Model.TotalKm.ToString("N0")</strong><small>km · kaydedilen rotalar</small></div><div><span>TOPLAM HARCAMA</span><strong>@((Model.FuelSpent+Model.MaintenanceSpent+Model.OtherSpent).ToString("N0"))</strong><small>₺ · girilen kayıtlar</small></div></div>
+ <div class="rider-two">
+ <section class="rider-panel"><div class="rider-section-head"><h2>MOTOSİKLETLERİM</h2><a href="/garaj/motor/ekle">＋ YENİ EKLE</a></div>
+ @if(Model.Bikes.Count==0){<p class="rider-muted">Henüz motosiklet eklemedin. İlk motorunu ekleyip yolculuğa başla.</p><a href="/garaj/motor/ekle" class="rider-btn">MOTOSİKLET EKLE ↗</a>}
+ else { <div class="rider-list">@foreach(var bike in Model.Bikes){<a class="rider-list-item" href="/garaj/motor/@bike.Id"><span>🏍</span><span><strong>@bike.BrandName @bike.ModelName</strong><small>@bike.ModelYear · @bike.OdometerKm.ToString("N0") km · @(Model.MeasuredFuel[bike.Id]?.ToString("N2") ?? bike.AverageFuelL100?.ToString("N2") ?? "—") L/100 km (@(Model.MeasuredFuel[bike.Id].HasValue ? "ölçülen" : "tahmin"))</small></span><b>↗</b></a>}</div> }
+ </section>
+ <section class="rider-panel"><div class="rider-section-head"><h2>YAKLAŞAN HATIRLATMALAR</h2><a href="/garaj/hatirlaticilar">TÜMÜ</a></div>
+ @if(Model.Reminders.Count==0){<p class="rider-muted">Aktif uyarı yok. Sigorta, muayene veya bakımlar için tarih ekleyebilirsin.</p>}
+ else { <div class="rider-list">@foreach(var reminder in Model.Reminders){<div class="rider-list-item"><span>◷</span><span><strong>@reminder.Title</strong><small>@reminder.Kind · @reminder.DueOn.ToString("dd.MM.yyyy")</small></span></div>}</div> }
+ </section></div>
+ <div class="rider-two">
+ <section class="rider-panel"><div class="rider-section-head"><h2>SON SÜRÜŞLERİM</h2><a href="/garaj/rotalar">TÜMÜ</a></div>@if(!Model.Trips.Any()){<p class="rider-muted">Henüz rota yok.</p>}
+ else{<div class="rider-list">@foreach(var trip in Model.Trips){<a class="rider-list-item" href="/garaj/rotalar/@trip.Id"><span>⌖</span><span><strong>@trip.Title</strong><small>@trip.DistanceKm km · @(trip.CompletedOn.HasValue?"Tamamlandı":"Planlandı")</small></span><b>↗</b></a>}</div>}</section>
+ <section class="rider-panel"><div class="rider-section-head"><h2>HARCAMA DAĞILIMI</h2></div><div class="rider-chart" data-values="@Model.FuelSpent.ToString(System.Globalization.CultureInfo.InvariantCulture),@Model.MaintenanceSpent.ToString(System.Globalization.CultureInfo.InvariantCulture),@Model.OtherSpent.ToString(System.Globalization.CultureInfo.InvariantCulture)"><span style="--color:#333333">Yakıt · @Model.FuelSpent.ToString("N0") ₺</span><span style="--color:#777777">Bakım · @Model.MaintenanceSpent.ToString("N0") ₺</span><span style="--color:#bbbbbb">Diğer · @Model.OtherSpent.ToString("N0") ₺</span></div><p class="rider-muted">Yalnızca eklediğin kayıtlar hesaplanır.</p></section>
+ </div>
+</section>

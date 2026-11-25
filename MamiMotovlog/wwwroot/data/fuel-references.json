@@ -1,0 +1,15 @@
+{
+  "version": "2026-11-24",
+  "notice": "Bütün motosikletlerin yakıt tüketimi doğrulanmış değildir. Bu tablo yalnızca kaynağı doğrulanmış modelleri içerir.",
+  "references": [
+    {
+      "brand": "CFMOTO",
+      "model": "450SR",
+      "litresPer100Km": 4.5,
+      "referenceYear": 2024,
+      "sourceLabel": "CFMOTO 450SR 2024 kullanıcı el kitabı: ≤4,5 L/100 km",
+      "sourceUrl": "https://cfmoto.se/wp-content/uploads/2024/05/CFMOTO-450SR-2024.pdf",
+      "referenceType": "manufacturer_upper_bound"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+@model RiderExpenseVm
+@{ ViewData["Title"] = "Gider kaydı"; }
+<section class="rider-shell"><div class="rider-intro"><h1>GİDER <em>EKLE.</em></h1></div>@await Html.PartialAsync("_RiderMenu")
+<form class="rider-panel rider-form" method="post" action="/garaj/gider">@Html.AntiForgeryToken()<div asp-validation-summary="All" class="rider-errors"></div><input asp-for="BikeId" type="hidden" /><div class="rider-form-grid">
+<label>Kategori<select asp-for="Category" required><option>Ekipman</option><option>Sigorta</option><option>Muayene</option><option>Otopark</option><option>Otoyol</option><option>Diğer</option></select></label><label>Tarih<input asp-for="Date" required type="date" /></label><label>Tutar ₺<input asp-for="AmountTry" required type="number" step="0.01" /></label></div><label>Açıklama<input asp-for="Description" required maxlength="220" /></label><button class="rider-btn">GİDERİ KAYDET ↗</button></form></section>

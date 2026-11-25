@@ -1,0 +1,6 @@
+@model RiderBikeVm
+@{ ViewData["Title"] = "Motosiklet bilgilerim"; var id = (int)ViewData["BikeId"]!; }
+<section class="rider-shell"><div class="rider-intro"><h1>MOTOSİKLET <em>AYARLARI.</em></h1></div>@await Html.PartialAsync("_RiderMenu")
+<form method="post" action="/garaj/motor/@id/duzenle" class="rider-panel rider-form">@Html.AntiForgeryToken()<div asp-validation-summary="All" class="rider-errors"></div>
+<div class="rider-form-grid"><label>Marka<input asp-for="BrandName" required /></label><label>Model<input asp-for="ModelName" required /></label><label>Yıl<input asp-for="ModelYear" required type="number" /></label><label>Versiyon (isteğe bağlı)<input asp-for="Edition" /></label><label>Kilometre<input asp-for="OdometerKm" required type="number" /></label><label>Ortalama L/100km (isteğe bağlı)<input asp-for="AverageFuelL100" type="number" step="0.01" /></label><label>Depo (L) (isteğe bağlı)<input asp-for="TankLitres" type="number" step="0.01" /></label></div>
+<label>Not (isteğe bağlı)<textarea asp-for="Notes"></textarea></label><button class="rider-btn">KAYDET ↗</button></form></section>

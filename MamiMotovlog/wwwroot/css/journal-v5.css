@@ -1,0 +1,156 @@
+/* MAMI MOTOVLOG | JOURNAL V5 — photo-led motovlog, graphite / chalk / restrained petrol teal.
+   Keeps the 450SR split feature, cleans up the compressed typography, restores readable rhythm. */
+:root{
+ --bg:#f7f8f6;--bg2:#eef2f0;--bg3:#e7eae6;
+ --text:#263133;--dark:#263133;--muted:#637174;--line:#dce2de;
+ --mint:#2a6c71;--mint-strong:#20575d;--shell:1210px;
+ --paper:#fff;--warm:#c3d5cf;
+ --r-bg:#f7f8f6;--r-card:#fff;--r-line:#dce2de;--r-mint:#2a6c71;--r-text:#263133;--r-muted:#667477;
+}
+html,body,body.public-body{background:var(--bg)!important;color:var(--text)}
+html{scroll-padding-top:95px}
+body{font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-weight:400;line-height:1.56}
+body *,body *::before,body *::after{box-sizing:border-box}
+body.public-body h1,body.public-body h2,body.public-body h3,
+body.public-body .hero h1,body.public-body .page-hero h1,body.public-body .ride-row h2,
+body.public-body .section-heading h2,body.public-body .guide-card h3,
+body.public-body .feature-info h3,body.public-body .editorial-copy h2,
+body.public-body .moto-details h2,body.public-body .story-text h2,
+body.public-body .cta-band h2,body.public-body .machine-text h3,
+body.public-body .contact-aside h2,body.public-body .rider-intro h1{
+ font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif!important;
+ font-stretch:normal!important;text-transform:none!important;letter-spacing:-.035em!important;line-height:1.18!important;
+ font-weight:690!important;overflow-wrap:anywhere;
+}
+body.public-body .overline,body.public-body .eyebrow,body.public-body .hero-pretitle{
+ color:var(--mint);font-weight:740;letter-spacing:.12em;font-size:10px}
+.site-noise{opacity:0!important}
+.site-header,.public-body .site-header{position:sticky;top:0;z-index:100;background:rgba(247,248,246,.97)!important;border-bottom:1px solid var(--line)}
+.nav-wrap{gap:18px;min-width:0}
+.site-nav>a{font-weight:650;color:#435254;letter-spacing:.035em}
+.site-nav>a.active,.site-nav>a:hover{color:#205d62}
+.site-nav .nav-contact{background:#263133!important;border-color:#263133!important;color:#fff!important}
+.site-nav .nav-contact:hover{background:#2a6c71!important}
+.brand{gap:10px;min-width:0}.brand-bike{width:75px;height:52px;object-fit:contain;margin-left:0;filter:none}
+.brand-type{color:#263133!important;font-family:system-ui,-apple-system,'Segoe UI',sans-serif!important;font-size:22px;letter-spacing:-.065em!important;font-weight:850!important;line-height:.98}
+.brand-accent,.mint-dot{color:#2a6c71!important}.brand-type small{color:#5d6a6b!important;letter-spacing:.2em;font-size:9px;margin-top:6px}
+.hero-journal,.public-body .hero-journal{padding-top:43px;min-height:585px}
+.hero-journal h1,.public-body .hero-journal h1{font-size:clamp(43px,5vw,69px)!important;font-weight:750!important;line-height:1.14!important}
+.hero-journal h1 em,.public-body .hero-journal h1 em{color:#2b6c71!important;font-family:Georgia,'Times New Roman',serif!important;font-weight:400!important;letter-spacing:-.03em!important;font-style:italic}
+.hero-journal .hero-lead,.hero-lead{color:#5f6e70!important;font-size:15px;line-height:1.8}
+.hero-journal .hero-visual{min-height:520px}
+.hero-actions .btn-mint,.btn-mint{background:#28696e!important;border-color:#28696e!important;color:#fff!important}
+.hero-actions .btn-mint:hover,.btn-mint:hover{background:#20545a!important}
+.text-link,.text-link span{color:#28696e!important}
+.section{padding-top:70px;padding-bottom:72px}.section-heading{align-items:end}
+.section-heading h2,.editorial-copy h2,.cta-band h2{font-size:clamp(29px,3.4vw,45px)!important;line-height:1.18!important}
+.feature-card,.guide-card,.guide-card-feature,.album-card,.video-card{border-radius:9px!important;overflow:hidden;border-color:var(--line)!important;background:#fff!important;box-shadow:0 9px 35px rgba(25,45,44,.035)!important}
+.feature-card:hover,.guide-card:hover,.guide-card-feature:hover{transform:translateY(-3px);border-color:#9cbbb6!important}
+.feature-info h3{font-size:clamp(18px,2vw,22px)!important;line-height:1.35!important;font-weight:700!important}
+.editorial-band{background:#ecf0ed!important}.editorial-copy p{color:#5e6b6c}.editorial-copy h2 em{color:#2b7276!important}
+.machine-section{padding-top:75px}.machine-card{background:#e9f0ec!important;border-radius:10px;overflow:hidden}
+.machine-text h3{font-size:clamp(54px,6vw,92px)!important;letter-spacing:-.07em!important;color:#253236!important}
+.machine-text h3 span{color:#2a6c71!important}
+.machine-text p{color:#526264}
+.machine-card>img{filter:saturate(.92) contrast(1.02)}
+.cta-band{border-color:var(--line)}.rider-home-feature{background:#e9f0ed!important;border-radius:12px}
+.page-hero{padding-top:55px;padding-bottom:43px}.page-hero h1{font-size:clamp(38px,5vw,60px)!important;line-height:1.19!important;letter-spacing:-.045em!important;font-weight:700!important}
+.page-hero p{font-size:15px;color:#596b6b;line-height:1.75}
+.listing-section{padding-top:32px;padding-bottom:92px;min-height:330px}
+.ride-list{display:grid;gap:13px}
+.ride-row{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,200px)!important;align-items:center;gap:24px;padding:26px 28px!important;border:1px solid var(--line)!important;border-radius:10px;background:#fff!important;min-width:0}
+.ride-row:hover{border-color:#b1c8c1!important;background:#fdfefe!important;box-shadow:0 8px 28px rgba(29,58,56,.05)}
+.ride-row>div{min-width:0}.ride-row .overline{margin-bottom:8px;font-size:10px;letter-spacing:.11em}
+.ride-row h2{font-size:clamp(20px,2.2vw,30px)!important;line-height:1.28!important;letter-spacing:-.035em!important;font-weight:690!important;max-width:800px;margin:0 0 9px;overflow-wrap:break-word;word-break:normal}
+.ride-row p{color:#617174!important;font-size:14px;line-height:1.65;margin:0;max-width:780px}
+.ride-row-end{display:flex;justify-content:end;align-items:center;gap:14px;color:#4e6364}.ride-row-end small{font-size:12px;line-height:1.55;word-break:normal}.ride-row-end span{color:#28696e!important;font-size:20px}
+.ride-story .ride-article,.ride-story .ride-article p{max-width:850px;line-height:1.85}
+.rider-shell,.rider-shell-wide{color:#263335}.rider-intro h1{font-size:clamp(34px,4.4vw,52px)!important}
+.rider-intro>p:not(.overline){color:#5a6a6c!important;max-width:800px}
+.rider-panel{background:#fff;border:1px solid var(--line)!important;border-radius:12px!important;box-shadow:0 12px 38px rgba(21,46,47,.038)!important}
+.rider-map-card{padding:12px!important;overflow:hidden}
+.rider-route-panel{padding:clamp(18px,2.2vw,28px)!important}
+.rider-route-panel h2{font-size:clamp(27px,3vw,35px)!important;color:var(--text)!important}
+.rider-route-metrics{background:#e3edea!important;border-radius:9px;overflow:hidden;gap:2px;padding:2px}
+.rider-route-metrics div{background:#f8fbf9!important;min-width:0;padding:12px 9px}
+.rider-route-metrics strong{font-size:clamp(19px,2vw,26px)!important;line-height:1.25!important;color:#243b3b!important;overflow-wrap:anywhere;letter-spacing:-.04em}
+.rider-route-metrics small{font-size:10px;color:#6d7b7a}
+.rider-form label{color:#435758!important;font-weight:650;font-size:13px}
+.rider-form input:not([type=checkbox]),.rider-form select,.rider-form textarea{background:#fff!important;border:1px solid #cddbd5!important;border-radius:7px!important;color:#293d3e!important;min-width:0}
+.rider-form input:focus-visible,.rider-form select:focus-visible{outline:2px solid #2b7276;outline-offset:2px}
+.rider-btn{background:#296d73!important;border:1px solid #296d73!important;color:#fff!important;border-radius:7px!important;font-size:13px!important}
+.rider-btn:hover{background:#22565b!important}.rider-btn:disabled{opacity:.48!important;cursor:not-allowed}
+.rider-btn-ghost{background:#fff!important;color:#285a5e!important;border-color:#8eaaa5!important}
+.rider-btn-ghost:hover{background:#eef4f1!important;color:#1d5457!important}
+.planner-moto-fieldset,.planner-cost-fieldset{border-color:#dce5df!important;background:#f8fbf9!important;border-radius:9px!important}
+.planner-moto-fieldset legend,.planner-cost-fieldset legend{color:#355559}
+.rider-preset-row button{border:1px solid #d4e2da!important;background:#fff!important;color:#2e595a!important;border-radius:7px!important}
+.rider-preset-row button:hover{background:#e8f2ee!important;color:#23575a!important}
+#rider-map{width:100%;height:min(67vh,650px);min-height:440px;background:#e6ebe7;border-radius:7px;overflow:hidden}
+.leaflet-container img.leaflet-tile{width:256px!important;height:256px!important;max-width:none!important;max-height:none!important}
+.leaflet-container img.leaflet-marker-icon,.leaflet-container img.leaflet-marker-shadow{max-width:none!important}
+.planner-stop-summary{margin:12px 0 6px;padding:13px 14px;border-radius:7px;color:#345b5a;font-size:12px;background:#edf5f1;line-height:1.5}
+.rider-map-credit{font-size:11px;line-height:1.7}
+.planner-catalog-grid{gap:12px!important}
+.planner-price-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin:9px 0}
+.planner-price-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 8px}
+.planner-price-head strong{font-size:13px;color:#314a4b}
+.planner-inline-action{border:1px solid #aac2b8;background:#fff;border-radius:6px;padding:8px 10px;color:#255b61;font-size:12px;font-weight:700}
+.planner-inline-action:hover{background:#edf6f0}
+.planner-price-status{font-size:12px;line-height:1.6;color:#496662!important;margin:8px 0 5px}
+.planner-source-credit{display:block;font-size:10px;color:#70817e;line-height:1.5}.planner-source-credit a{text-decoration:underline;text-underline-offset:2px}
+.planner-manual-variant{grid-column:1 / -1}
+.planner-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.planner-actions .rider-btn{width:100%;min-height:46px!important;letter-spacing:0}
+.route-options-wrap{margin:13px 0 22px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.route-options-label{font-size:10px;font-weight:800;color:#56716f;letter-spacing:.12em;margin:0 0 8px}
+.route-choices{display:flex;flex-direction:column;gap:8px}
+.route-option{padding:11px 13px;border:1px solid #cdded8;background:#fff;color:#374c4b;text-align:left;font-size:13px;font-weight:650;border-radius:7px;line-height:1.45}
+.route-option.active{border-color:#286b71;background:#eaf4ef;color:#205b61}
+.route-option:hover{border-color:#286b71}
+.route-options-note{font-size:11px;color:#768582;margin:8px 0 0;line-height:1.6}
+.weather-details{margin:15px 0 19px;background:#eaf3ef;border:1px solid #d4e5dc;padding:17px;border-radius:9px;color:#2b4b4d}
+.weather-details-title .overline{margin:0 0 4px}.weather-details-title h3{font-size:18px!important;line-height:1.3!important;margin:0 0 10px}
+.weather-current{font-weight:700;color:#285759;font-size:15px;line-height:1.6}
+.weather-days{display:flex;flex-direction:column;gap:7px;margin:13px 0}
+.weather-day{background:#fff;border-radius:6px;padding:11px 12px;font-size:12px;color:#526765;line-height:1.55}
+.weather-details small{font-size:11px;color:#6b7d79}.weather-details small a{text-decoration:underline;text-underline-offset:2px}
+/* All hidden panels must stay hidden even if an earlier class sets display:grid. */
+[hidden]{display:none!important}
+/* Keep the beloved dark printed-magazine footer. */
+.site-footer{background:#243034!important;color:#fff!important}.site-footer .footer-links>span{color:#91a6a5!important}
+.site-footer .footer-links a{color:#e1ebea!important}.site-footer .footer-bottom{border-color:#4c5d5d!important}
+.site-footer .brand-type{color:#f0f6f2!important}.site-footer .brand-type small{color:#adc0be!important}
+.site-footer .brand-bike{filter:brightness(0) invert(1)}
+@media(max-width:1020px){
+ .ride-row{grid-template-columns:minmax(0,1fr)!important;gap:8px}
+ .ride-row-end{justify-content:space-between}
+ .rider-map-grid{grid-template-columns:minmax(0,1fr)!important}
+}
+@media(max-width:780px){
+ html,body{max-width:100%;overflow-x:clip!important}
+ .shell{width:calc(100% - 34px)!important}
+ .site-header{position:relative!important}
+ .site-nav{background:#fff!important;border:1px solid var(--line)!important}
+ .site-nav>a{color:#354849!important}
+ .hero-journal,.public-body .hero-journal{width:calc(100% - 34px)!important;gap:18px}
+ .hero-journal h1,.public-body .hero-journal h1{font-size:clamp(39px,10vw,55px)!important}
+ .hero-journal .hero-visual{height:400px!important;min-height:350px!important}
+ .page-hero h1{font-size:clamp(34px,9vw,49px)!important}
+ .ride-row{padding:21px 18px!important}
+ .ride-row h2{font-size:clamp(19px,5.7vw,27px)!important;line-height:1.25!important}
+ #rider-map{height:48vh;min-height:320px}
+ .planner-actions{grid-template-columns:1fr}
+ .rider-route-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .rider-route-metrics strong{font-size:19px!important}
+}
+@media(max-width:420px){
+ .rider-route-metrics{grid-template-columns:minmax(0,1fr)!important}
+ .rider-route-metrics div{padding:12px 13px}
+ .planner-price-grid{grid-template-columns:minmax(0,1fr)}
+ .brand-bike{width:58px;height:46px}
+ .brand-type{font-size:19px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+.rider-form input[type=date]{color-scheme:light}

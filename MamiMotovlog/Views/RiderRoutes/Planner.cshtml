@@ -1,0 +1,72 @@
+@{ ViewData["Title"] = "Rota planlayıcı"; bool available=(bool)(ViewData["RoutingAvailable"]??false); }
+@inject MamiMotovlog.Data.RiderDbContext RiderDb
+@using System.Security.Claims
+@{var uid=(string?)ViewBag.MemberId; var bikes=uid is null?new List<RiderBike>():await RiderDb.RiderBikes.AsNoTracking().Where(x=>x.OwnerId==uid).ToListAsync();
+  var measured = ViewBag.MeasuredFuel as Dictionary<int, decimal?> ?? new Dictionary<int, decimal?>();}
+@section Scripts { <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script><script src="/js/rider-map.js" asp-append-version="true" defer></script><script src="/js/rider-moto-picker.js" asp-append-version="true" defer></script><script src="/js/v52-route-save.js" asp-append-version="true" defer></script> }
+@section Head { <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyo2ItGsV9Y0nS2jS=" crossorigin="" /><link rel="stylesheet" href="/css/leaflet-layout-fallback.css" asp-append-version="true" /> }
+<section class="rider-shell rider-shell-wide"><div class="rider-intro"><p class="overline">MAMI / ROTA PLANLAYICI</p><h1>Yolun nereye?</h1><p>Yola çıkmadan önce motosikletini seç, haritada başlangıç ve varış noktanı belirle. Gerçek güzergâh, mola durakları, saat-dakika cinsinden süre, İstanbul yakıt fiyatı ve varış hava durumu bir arada.</p></div>
+@if((bool)ViewBag.IsRider){@await Html.PartialAsync("_RiderMenu")}
+<div class="rider-preset-row"><span>HIZLI BAŞLANGIÇ</span><button type="button" data-route-preset="41.0138,28.9497|41.1757,29.6133">İstanbul → Şile</button><button type="button" data-route-preset="39.9255,32.8663|40.7311,31.6083">Ankara → Bolu</button><button type="button" data-route-preset="38.4237,27.1428|38.3236,26.3049">İzmir → Çeşme</button></div>
+<div class="rider-map-grid"><section class="rider-panel rider-map-card">
+ <div class="rider-map-hint"><span>01 · BAŞLANGIÇ</span><span>02 · VARIŞ</span><button id="add-stop" type="button" disabled>＋ ARA DURAK</button><button id="reset-pins" type="button">↺ SIFIRLA</button></div>
+ <div id="rider-map" role="region" aria-label="Türkiye haritasında başlangıç, varış ve ara durak seçimi"></div><p id="stop-summary" class="planner-stop-summary" aria-live="polite">Henüz konum seçilmedi.</p><div class="rider-map-credit">© OpenStreetMap contributors · Türkiye harita görünümü coğrafi kutu ile sınırlandırılmıştır. Rota süresi tahminidir; trafik ve motosiklet koşullarını dikkate almaz.</div>
+</section><section class="rider-panel rider-route-panel">
+ <p class="overline">ROTA HESABI / YOLCULUK</p><h2>Yola hazır.</h2>
+ @if(!available){<p class="rider-warning">Gerçek yol yönlendirme servisi henüz yapılandırılmadı. Haritayı inceleyebilirsin, ancak rota hesaplamak için servis gereklidir.</p>}
+ <div class="rider-route-metrics" id="planner-results" hidden><div><span>MESAFE</span><strong id="route-km">—</strong><small>km</small></div><div><span>TAHMİNİ SÜRE</span><strong id="route-time">—</strong><small>tahmini sürüş</small></div><div><span>YAKIT MASRAFI</span><strong id="route-cost">—</strong><small>₺</small></div></div>
+ <div class="route-options-wrap" id="route-options-wrap" hidden><p class="route-options-label">GÜZERGÂH SEÇENEKLERİ</p><div id="route-choices" class="route-choices" aria-live="polite"></div><p class="route-options-note">Alternatif rotalar, hizmet sağlayıcı sunduğunda görünür. Ara duraklar seçtiğin sırayla korunur.</p></div>
+ <div class="rider-form">
+  <fieldset class="planner-moto-fieldset" aria-describedby="fuel-source-status">
+    <legend>01 · Motosikletini seç</legend>
+    <p class="planner-mini-help">Katalogdan marka, model ve yıl seçebilirsin. Garajında kayıtlı bir motor varsa doğrudan onu kullan.</p>
+    @if (bikes.Count > 0) {
+      <label>Garajımdaki motosiklet
+        <select id="planner-garage-bike"><option value="">Katalogdan seçmek istiyorum</option>
+          @foreach (var bike in bikes) {
+            var hasMeasured = measured.TryGetValue(bike.Id, out var consumption) && consumption.HasValue;
+            var fuelValue = hasMeasured ? consumption : bike.AverageFuelL100;
+            <option value="@bike.Id" data-fuel="@(fuelValue?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")" data-source="@(hasMeasured ? "Gerçek yakıt kayıtları" : "Garajda kayıtlı ortalama")">@bike.BrandName @bike.ModelName · @bike.ModelYear</option>
+          }
+        </select>
+      </label>
+    }
+    <div class="rider-form-grid planner-catalog-grid" id="planner-catalog-controls">
+      <label>Marka<select id="planner-brand"><option value="">Marka seç</option></select></label>
+      <label>Model<select id="planner-model" disabled><option value="">Önce marka seç</option></select></label>
+      <label>Model yılı<select id="planner-year" disabled><option value="">Önce model seç</option></select></label>
+      <label>Versiyon<select id="planner-variant" disabled><option value="">Varsa versiyon seç</option></select></label>
+      <label class="planner-manual-variant">Listede yoksa versiyon<input id="planner-manual-variant" maxlength="80" placeholder="Örn. ABS / özel versiyon (isteğe bağlı)" /></label>
+    </div>
+    <details class="planner-manual-bike"><summary>Motorun listede yok mu?</summary>
+      <div class="rider-form-grid"><label>Marka (isteğe bağlı)<input id="planner-custom-brand" maxlength="80" placeholder="Örn. Honda" /></label><label>Model (isteğe bağlı)<input id="planner-custom-model" maxlength="100" placeholder="Örn. CB500X" /></label></div>
+      <p>Model listede olmasa da yakıt tüketimini aşağıya yazıp rota hesaplayabilirsin.</p>
+    </details>
+  </fieldset>
+  <fieldset class="planner-cost-fieldset"><legend>02 · Yakıt hesabı</legend>
+    <label>Ortalama tüketim (L / 100 km)<input id="fuel-consumption" type="number" inputmode="decimal" step="0.01" min="0.1" max="50" placeholder="Örn. 4.5 — kendin de yazabilirsin" /></label>
+    <p id="fuel-source-status" class="rider-muted planner-fuel-note" role="status" aria-live="polite">Motorunu seç. Doğrulanmış veri yoksa tüketimini kendin girebilirsin.</p>
+    <div class="planner-price-head"><strong>İstanbul referans litre fiyatı</strong><button id="fuel-refresh" type="button" class="planner-inline-action">Fiyatı yenile ↻</button></div>
+    <div class="rider-form-grid planner-price-grid">
+      <label>İstanbul<select id="fuel-side"><option value="anadolu">Anadolu Yakası</option><option value="avrupa">Avrupa Yakası</option></select></label>
+      <label>Yakıt türü<select id="fuel-type"><option value="benzin">Benzin 95</option></select></label>
+    </div>
+    <label>Yakıt fiyatı (₺ / litre)<input id="fuel-price" type="number" inputmode="decimal" step="0.01" min="0" max="1000" placeholder="Litre fiyatını gir veya internetten getir" /></label>
+    <p id="fuel-price-status" class="rider-muted planner-price-status" aria-live="polite">Fiyat doğrulaması başlatılacak.</p>
+    <small class="planner-source-credit"><a href="https://guncelakaryakitfiyatlari.com/acik-veri/" rel="noopener noreferrer" target="_blank">Kaynak: EPDK; derleyen: Güncel Akaryakıt Fiyatları ↗</a> · Referans fiyat; istasyona göre değişebilir.</small>
+  </fieldset>
+ <div class="planner-actions"><button class="rider-btn" id="build-route" type="button" disabled>Rotayı hesapla ↗</button><button id="weather-button" type="button" class="rider-btn rider-btn-ghost" disabled>Varış hava durumu ↗</button></div>
+ <p id="route-status" class="rider-muted" role="status" aria-live="polite">Haritadan başlangıç ve varış konumunu seç.</p>
+ <p id="weather-status" class="rider-muted" aria-live="polite"></p>
+ <div id="weather-details" class="weather-details" hidden><div class="weather-details-title"><span class="overline">VARIŞ NOKTASI / 3 GÜNLÜK TAHMİN</span><h3>Yola çıkmadan önce hava.</h3></div><p id="weather-current" class="weather-current"></p><div id="weather-days" class="weather-days"></div><small><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Hava verisi: Open-Meteo ↗</a> (CC BY 4.0). Tahmin hızla değişebilir; sürüş öncesinde tekrar kontrol et.</small></div>
+ </div>
+ @if((bool)ViewBag.IsRider){
+ <form id="save-trip" method="post" action="/rota-planlayici/kaydet" class="rider-form rider-save-form">@Html.AntiForgeryToken()
+ <label>Rota adı<input name="Title" maxlength="140" placeholder="Örn. İstanbul → Şile" required /></label>
+ <div class="rider-form-grid"><label>Başlangıç adı<input name="StartLabel" maxlength="120" /></label><label>Varış adı<input name="EndLabel" maxlength="120" /></label></div>
+ <label>Motosikletim<select name="BikeId" id="route-save-bike"><option value="">Seçilmedi</option>@foreach(var bike in bikes){<option value="@bike.Id">@bike.BrandName @bike.ModelName</option>}</select></label>
+ <input name="StartLat" type="hidden"/><input name="StartLon" type="hidden"/><input name="EndLat" type="hidden"/><input name="EndLon" type="hidden"/><input name="DistanceKm" type="hidden"/><input name="DurationMinutes" type="hidden"/><input name="GeoJson" type="hidden"/>
+ <p id="save-feedback" role="status" aria-live="polite" class="rider-muted"></p><button type="submit" class="rider-btn rider-btn-ghost" id="save-route" disabled>ROTAYI GARAJIMA KAYDET ↗</button>
+ </form>
+ } else { <a class="rider-btn rider-btn-ghost" href="/uye/giris">ROTAYI KAYDETMEK İÇİN GİRİŞ YAP ↗</a> }
+</section></div></section>

@@ -1,0 +1,13 @@
+/* Basic layout safety-net for Leaflet 1.9.x. Upstream Leaflet CSS remains the preferred stylesheet.
+   The local rules prevent global image styles from distorting map tiles. */
+.leaflet-container{position:relative;overflow:hidden;outline:0;touch-action:pan-x pan-y;background:#ededed;isolation:isolate;font:12px/1.5 Arial, sans-serif}
+.leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-map-pane,.leaflet-overlay-pane,.leaflet-shadow-pane,.leaflet-marker-pane,.leaflet-tooltip-pane,.leaflet-popup-pane{position:absolute;left:0;top:0}
+.leaflet-map-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-shadow-pane{z-index:500}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}
+.leaflet-tile{filter:inherit;visibility:inherit;max-width:none!important;max-height:none!important;width:256px;height:256px;border:0;margin:0;padding:0;display:block}
+.leaflet-container img,.leaflet-container svg{max-width:none!important;max-height:none!important}
+.leaflet-tile-container,.leaflet-zoom-animated{transform-origin:0 0}
+.leaflet-container .leaflet-control-container{position:absolute;inset:0;pointer-events:none;z-index:1000}.leaflet-control{position:relative;pointer-events:auto;z-index:1000}
+.leaflet-top{position:absolute;top:10px}.leaflet-bottom{position:absolute;bottom:0}.leaflet-left{left:10px}.leaflet-right{right:10px}.leaflet-control-zoom a{display:block;width:32px;height:32px;background:#fff;color:#111!important;text-align:center;border:1px solid #aaa;line-height:30px;font-weight:600;font-size:20px;text-decoration:none}
+.leaflet-control-attribution{padding:2px 5px;background:#ffffffe0;font-size:10px;color:#333}.leaflet-control-attribution a{color:#222}
+.leaflet-tooltip{position:absolute;padding:5px 8px;background:white;color:#111;white-space:nowrap;border:1px solid #ccc;box-shadow:0 3px 12px #0002;pointer-events:none}
+.leaflet-container .leaflet-interactive{cursor:pointer}

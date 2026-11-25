@@ -1,0 +1,12 @@
+
+/* MAMI STUDIO / dedicated admin interface — isolated from visitor navigation */
+.studio-body{background:#0b1213;color:#ecf5ef;min-height:100vh}
+.studio-header{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:16px clamp(22px,5vw,85px);background:#13201e;border-bottom:1px solid rgba(156,247,206,.19);position:sticky;top:0;z-index:100}
+.studio-brand{display:flex;align-items:center;gap:10px}.studio-brand img{width:70px;height:44px}.studio-brand a{display:flex;flex-direction:column;line-height:1.1}.studio-brand strong{font:900 25px Impact,'Arial Narrow',sans-serif}.studio-brand span{font-size:9px;letter-spacing:.19em;color:#a0b7af;font-weight:800;margin-top:5px}
+.studio-auth,.studio-secure{font-size:10px;font-weight:800;letter-spacing:.13em;color:#a5e8c9}.studio-header form button{padding:12px 18px;border:1px solid rgba(156,247,206,.5);background:transparent;color:#e8f2ec;font-size:10px;font-weight:850;letter-spacing:.1em}.studio-header form button:hover{background:#9cf7ce;color:#0e1516}
+.studio-body .admin-shell{padding-top:54px;padding-bottom:110px;min-height:70vh}.studio-body .admin-topbar{border-bottom:1px solid rgba(156,247,206,.17);padding-bottom:18px}.studio-body .admin-topbar h1{font-size:clamp(48px,6vw,85px)}
+.studio-tabs{margin:25px 0 38px;padding:10px;background:#172422;border:1px solid rgba(156,247,206,.15);border-radius:6px;gap:7px}.studio-tabs a{border:0;background:transparent;border-radius:3px;transition:background .2s,color .2s}.studio-tabs a:hover,.studio-tabs a:focus-visible{background:#9cf7ce;color:#07120e}
+.studio-body .admin-stats a{background:linear-gradient(145deg,#1e302b,#13201e);border:1px solid rgba(156,247,206,.17)}
+.studio-body .admin-table-wrap,.studio-body .admin-editor,.studio-body .admin-message-detail{border:1px solid rgba(156,247,206,.15);background:#16211f}
+.studio-login .admin-login{min-height:85vh}
+@media(max-width:760px){.studio-header{padding:14px 18px;gap:8px}.studio-auth,.studio-secure{display:none}.studio-brand img{width:48px}.studio-brand span{font-size:8px}.studio-header form button{padding:10px;font-size:9px}.studio-tabs{overflow-x:auto;flex-wrap:nowrap;white-space:nowrap}.studio-tabs a{flex:none}.studio-body .admin-shell{padding-top:30px}}

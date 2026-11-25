@@ -1,0 +1,3 @@
+@model ContactMessage
+@{ Layout = "_AdminLayout"; }
+<section class="shell admin-shell"><partial name="_AdminNav"/><a class="text-link" href="/yonetim/mesajlar">← MESAJLARA DÖN</a><article class="admin-message-detail"><span class="overline">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</span><h2>@Model.Subject</h2><p><b>GÖNDEREN:</b> @Model.Name</p><p><b>E-POSTA:</b> <a href="mailto:@Model.Email">@Model.Email</a></p><p><b>TELEFON:</b> @if(!string.IsNullOrWhiteSpace(Model.Phone)){<a href="tel:@Model.Phone">@Model.Phone</a>}else{<span>Eski mesajda telefon paylaşılmamış</span>}</p><div class="preline">@Model.Message</div><a class="btn btn-outline" href="mailto:@Model.Email">E-POSTA İLE YANITLA ↗</a></article></section>

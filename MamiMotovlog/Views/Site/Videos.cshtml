@@ -1,0 +1,6 @@
+@model List<Video>
+<section class="page-hero shell"><span class="overline">İZLE / MOTOVLOG</span><h1>Yolun gözünden.</h1><p>Sürüşün sesini ve manzaranın değişimini ilk sıradan izle.</p></section>
+<section class="shell listing-section">
+@if (Model.Count == 0) { <div class="empty-state"><span>▶</span><h2>İlk video hazırlanıyor.</h2><p>YouTube kanalım yayında. Videoların site içindeki arşivini hazırlıyorum; bu arada kanalımdan takip edebilirsin.</p><a class="btn btn-outline" href="@ViewBag.YouTubeChannelUrl" target="_blank" rel="noopener noreferrer">YOUTUBE KANALINA GİT <b>↗</b></a></div> }
+else { <div class="video-grid">@foreach(var v in Model) { var id=YouTubeParser.GetVideoId(v.YouTubeUrl);<a class="video-card" href="/videolar/@v.Id"><div class="video-thumb"><img src="https://i.ytimg.com/vi/@id/hqdefault.jpg" alt="@v.Title" loading="lazy"/><span class="play-ring">▶</span></div><div class="video-meta"><span>MOTOVLOG / @v.CreatedAt.ToString("dd.MM.yyyy")</span><h2>@v.Title</h2><p>@v.Summary</p><span class="video-cta">VİDEOYU İZLE ↗</span></div></a>}</div>}
+</section>

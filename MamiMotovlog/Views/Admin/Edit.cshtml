@@ -1,0 +1,21 @@
+@model AdminEditVm
+@{ Layout = "_AdminLayout"; }
+@{
+    var title = Model.Kind switch { "videolar" => "VİDEO", "rotalar" => "GEZİ YAZISI", "albumler" => "FOTOĞRAF ALBÜMÜ", _ => "EKİPMAN" };
+}
+<section class="shell admin-shell"><partial name="_AdminNav"/><div class="admin-table-head"><div><h2>@(Model.Id.HasValue ? "DÜZENLE" : "YENİ EKLE") / @title</h2><p>Kaydettikten sonra ilgili sayfada yayınlayabilirsin.</p></div><a class="text-link" href="/yonetim/icerikler/@Model.Kind">← LİSTEYE DÖN</a></div><form asp-controller="Admin" asp-action="Edit" asp-route-kind="@Model.Kind" asp-route-id="@Model.Id" method="post" class="admin-editor"><div asp-validation-summary="All" class="validation-error"></div><div class="field"><label asp-for="Title">BAŞLIK *</label><input asp-for="Title" required maxlength="130" placeholder="İçerik başlığı"/><span asp-validation-for="Title" class="validation-error"></span></div><div class="field"><label asp-for="Summary">KISA AÇIKLAMA</label><textarea asp-for="Summary" maxlength="550" rows="3" placeholder="Kısa bir giriş..."></textarea><span asp-validation-for="Summary" class="validation-error"></span></div>
+@if(Model.Kind=="videolar"){
+<div class="field"><label asp-for="Link">YOUTUBE VİDEO BAĞLANTISI *</label><input asp-for="Link" type="url" required maxlength="300" placeholder="https://www.youtube.com/watch?v=..."/><span asp-validation-for="Link" class="validation-error"></span></div>
+}
+@if(Model.Kind=="rotalar"){
+<div class="field"><label asp-for="Body">GEZİ YAZISI</label><textarea asp-for="Body" rows="12" placeholder="Yola nasıl çıktın, nerede mola verdin..."></textarea></div><div class="field-grid"><div class="field"><label asp-for="Start">BAŞLANGIÇ</label><input asp-for="Start" placeholder="Başlangıç noktası"/></div><div class="field"><label asp-for="End">VARIŞ</label><input asp-for="End" placeholder="Varış noktası"/></div></div><div class="field-grid"><div class="field"><label asp-for="Stops">DURAKLAR</label><input asp-for="Stops" placeholder="Mola yerleri"/></div><div class="field"><label asp-for="DistanceKm">YAKLAŞIK KM</label><input asp-for="DistanceKm" type="number" min="0" max="100000"/></div></div><div class="field"><label asp-for="MapUrl">HARİTA BAĞLANTISI (HTTPS)</label><input asp-for="MapUrl" type="url" placeholder="https://maps.google.com/..."/></div>
+}
+@if(Model.Kind=="ekipmanlar"){
+<div class="field-grid"><div class="field"><label asp-for="Category">KATEGORİ</label><input asp-for="Category" placeholder="Kask, Kamera, Ekipman"/></div><div class="field"><label asp-for="Link">ÜRETİCİ BAĞLANTISI</label><input asp-for="Link" type="url" placeholder="https://..."/></div></div><div class="field"><label asp-for="Body">DENEYİMLERİM</label><textarea asp-for="Body" rows="11" placeholder="Bu ekipmanı neden seçtim... "></textarea></div>
+}
+@if(Model.Kind=="videolar"||Model.Kind=="albumler"){
+<div class="field"><label asp-for="RideId">İLGİLİ GEZİ YAZISI (OPSİYONEL)</label><select asp-for="RideId"><option value="">İlişkili rota yok</option>@foreach(var r in Model.Rides){<option value="@r.Id">@r.Title</option>}</select></div>
+}
+<div class="edit-bottom"><label class="check-label"><input asp-for="Published" type="checkbox"/><span>Bu içeriği sitede yayınla</span></label><button type="submit" class="btn btn-mint">KAYDET <span>↗</span></button></div></form>
+@if(Model.Kind=="albumler" && Model.Id.HasValue){<div class="admin-album-photos"><h2>ALBÜM FOTOĞRAFLARI</h2><p>JPG, PNG veya WebP • Fotoğraf başına en fazla 7 MB • Tek seferde en fazla 6 dosya.</p><form action="/yonetim/album/@Model.Id/fotograf" method="post" enctype="multipart/form-data" class="upload-form">@Html.AntiForgeryToken()<input type="file" name="images" accept=".jpg,.jpeg,.png,.webp" multiple required/><button type="submit" class="btn btn-outline">FOTOĞRAF YÜKLE ↗</button></form><div class="admin-photo-grid">@foreach(var p in Model.Photos){<div><img src="@p.ImagePath" alt="@p.Caption"/><form action="/yonetim/fotograf/@p.Id/sil" method="post" data-confirm="Fotoğraf kaldırılsın mı?">@Html.AntiForgeryToken()<button type="submit">SİL ×</button></form></div>}</div></div>}
+</section>

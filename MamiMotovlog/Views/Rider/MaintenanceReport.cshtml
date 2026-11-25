@@ -1,0 +1,8 @@
+@model List<RiderMaintenance>
+@{Layout=null; var b=(RiderBike)ViewBag.Bike;}
+<!doctype html><html lang="tr"><head><meta charset="utf-8"/><title>Bakım raporu · @b.BrandName @b.ModelName</title><style>
+body{font:15px system-ui,sans-serif;color:#1a2723;max-width:1000px;margin:40px auto;padding:0 20px}h1{font-size:34px}small{color:#567}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid #ccc;text-align:left;padding:14px}button{background:#1a2723;color:white;padding:14px;border:0;cursor:pointer}@@media print{button{display:none}body{margin:0;max-width:none}}</style></head>
+<body><p><strong>MAMI MOTOVLOG</strong> / RIDER GARAGE</p><h1>MOTOSİKLET BAKIM RAPORU</h1><p><b>@b.BrandName @b.ModelName</b> · @b.ModelYear · @b.OdometerKm km</p>
+<small>Oluşturulma tarihi: @MamiMotovlog.Services.TurkeyClock.Today.ToString("dd.MM.yyyy") · Kullanıcının kendi girdiği kayıtlar.</small>
+<table><tr><th>Tarih</th><th>KM</th><th>İşlem</th><th>Açıklama</th><th>Tutar</th><th>Sonraki</th></tr>@foreach(var m in Model){<tr><td>@m.ServicedOn.ToString("dd.MM.yyyy")</td><td>@m.AtKm</td><td>@m.Category</td><td>@m.Description</td><td>@m.CostTry.ToString("N2") ₺</td><td>@(m.NextDate?.ToString("dd.MM.yyyy")??m.NextKm?.ToString()??"—")</td></tr>}</table>
+<p><b>Toplam bakım gideri: @Model.Sum(x=>x.CostTry).ToString("N2") ₺</b></p><button onclick="window.print()">YAZDIR / PDF KAYDET</button></body></html>

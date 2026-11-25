@@ -1,0 +1,59 @@
+@inject IConfiguration RiderConfig
+@model HomeVm
+@{
+    string? thumb = Model.Video is null ? null : YouTubeParser.GetVideoId(Model.Video.YouTubeUrl);
+    string cover = Model.Album?.Photos.OrderBy(x => x.SortOrder).FirstOrDefault()?.ImagePath ?? "/images/three-bikes.webp";
+}
+<section class="hero shell hero-journal" aria-labelledby="home-title">
+  <div class="hero-copy">
+    <div class="eyebrow"><span class="eyebrow-line"></span> MAMI MOTOVLOG <span class="eyebrow-index">MUHAMMET'İN YOL DEFTERİ</span></div>
+    <p class="hero-pretitle">MOTOSİKLET · YOLCULUK · HİKÂYELER</p>
+    <h1 id="home-title">@if(string.IsNullOrWhiteSpace(Model.Settings.HeroTitle)){<text>Her yolun<br/><em>bir hikâyesi var.</em></text>}else{@Model.Settings.HeroTitle}</h1>
+    <p class="hero-lead">@(string.IsNullOrWhiteSpace(Model.Settings.HeroDescription) ? "Ben Muhammet. CFMOTO 450SR ile çıktığım yolları, küçük keşifleri ve kamera arkasında kalan anları burada biriktiriyorum. Bir kahve molası kadar samimi, uzun bir yol kadar özgür." : Model.Settings.HeroDescription)</p>
+    <div class="hero-actions"><a href="/rotalar" class="btn btn-mint">Yol günlüğünü keşfet <span>↗</span></a>@if (RiderConfig.GetValue<bool>("Rider:Enabled")) { <a href="/rota-planlayici" class="text-link">Rotanı planla <span>↗</span></a> } else { <a href="/motosikletim" class="text-link">450SR'yi keşfet <span>↗</span></a> }</div>
+    <div class="hero-foot"><span><strong>450SR</strong><small>YOL ARKADAŞIM</small></span><i></i><span><strong>Türkiye</strong><small>YOLUN ÜZERİNDE</small></span></div>
+  </div>
+  <div class="hero-visual hero-journal-photo">
+    <div class="hero-image-frame"><img src="@(string.IsNullOrWhiteSpace(Model.Settings.HeroImage)?"/images/rider-450sr.webp":Model.Settings.HeroImage)" alt="Muhammet'in yolda sürdüğü beyaz CFMOTO 450SR motosikleti" fetchpriority="high" /></div>
+    <div class="hero-journal-caption"><span>01 / YOL ARKADAŞIM</span><strong>CFMOTO 450SR</strong></div>
+  </div>
+</section>
+<section class="ticker" aria-label="Motovlog sloganı"><div class="ticker-track">YOLLAR <span>✳</span> HİKÂYELER <span>✳</span> MOTOVLOG <span>✳</span> 450SR <span>✳</span> ÖZGÜRLÜK <span>✳</span> YOLLAR <span>✳</span> HİKÂYELER <span>✳</span> MOTOVLOG <span>✳</span></div></section>
+<section class="section shell front-features" id="kesfet">
+  <div class="section-heading"><div><span class="overline">01 / ÖNE ÇIKANLAR</span><h2>Yoldan hikâyeler.</h2></div><p>Bir videodan başka bir yola, bir fotoğraftan yeni bir hikâyeye.</p></div>
+  <div class="feature-grid">
+    <a class="feature-card feature-video" href="@(Model.Video is null ? Model.Settings.YouTubeChannelUrl : $"/videolar/{Model.Video.Id}")" target="@(Model.Video is null ? "_blank" : "_self")" rel="noopener noreferrer">
+      <div class="feature-image"><img src="@(thumb is null ? "/images/city-ride.webp" : $"https://i.ytimg.com/vi/{thumb}/hqdefault.jpg")" alt="Son motovlog paylaşımı" loading="lazy" /></div>
+      <div class="feature-badge">01 / VİDEO <span>▶</span></div><div class="feature-info"><p>@(Model.Video is null ? "YOUTUBE'DA BENİ TAKİP ET" : "SON MOTOVLOG")</p><h3>@(Model.Video?.Title ?? "Motovlogları YouTube kanalımda keşfet.")</h3><span class="inline-arrow">↗</span></div>
+    </a>
+    <a class="feature-card" href="@(Model.Ride is null ? "/rotalar" : $"/rotalar/{Model.Ride.Id}")">
+      <div class="feature-image"><img src="/images/sunset-450sr.webp" alt="Gün batımında CFMOTO 450SR" loading="lazy" /></div>
+      <div class="feature-badge">02 / ROTA <span>↗</span></div><div class="feature-info"><p>@(Model.Ride is null ? "YOL NOTLARI HAZIRLANIYOR" : "SON GEZİ YAZISI")</p><h3>@(Model.Ride?.Title ?? "Her yolun bir hikâyesi var.")</h3><span class="inline-arrow">↗</span></div>
+    </a>
+    <a class="feature-card" href="@(Model.Album is null ? "/galeri" : $"/galeri/{Model.Album.Id}")">
+      <div class="feature-image"><img src="@cover" alt="Motosiklet fotoğraf albümü" loading="lazy" /></div>
+      <div class="feature-badge">03 / FOTOĞRAF <span>↗</span></div><div class="feature-info"><p>YOLDAN KARELER</p><h3>@(Model.Album?.Title ?? "Galeriyi keşfet.")</h3><span class="inline-arrow">↗</span></div>
+    </a>
+  </div>
+</section>
+<section class="editorial-band"><div class="shell editorial-grid"><div class="editorial-photo"><img src="/images/sunset-450sr.webp" alt="Köprü manzarasına karşı CFMOTO 450SR" loading="lazy" /><span class="photo-caption">HER YOL BİR BAŞLANGIÇ / MAMI</span></div><div class="editorial-copy"><span class="overline">02 / HİKÂYEM</span><h2>Yolun kendisi<br /><em>bir hikâye.</em></h2><p>Motosikletle bir yere giderken vardığım yer kadar oraya nasıl gittiğimi de hatırlıyorum. Yolun bir anda açılıp manzarayı göstermesi, fotoğraf çekmek için durduğum bir nokta ya da yeniden sürmek isteyeceğim bir viraj...</p><p>Motovlog çekmek, bütün bu ayrıntıları saklamanın benim için en güzel yolu.</p><a class="btn btn-outline" href="/hakkimda">HİKÂYEMİ OKU <span>↗</span></a></div></div></section>
+<section class="section shell machine-section"><div class="section-heading"><div><span class="overline">03 / YOL ARKADAŞIM</span><h2>Yol arkadaşım.</h2></div><a href="/motosikletim" class="text-link">450SR'Yİ KEŞFET <span>↗</span></a></div><div class="machine-card"><div class="machine-text"><span class="machine-model">CFMOTO / SPORT</span><h3>450<span>SR</span></h3><p>Keskin çizgiler, virajlara davet eden bir karakter ve her sürüşte başka bir hikâye.</p><a href="/motosikletim">MOTOSİKLETİM <span>↗</span></a></div><img src="/images/muhammet-450sr.webp" loading="lazy" alt="Muhammet ve CFMOTO 450SR motosikleti"/><span class="machine-watermark">MAMI</span></div></section>
+<section class="section shell guide-feature" id="rota-rehberi">
+  <div class="section-heading"><div><span class="overline">04 / ROTA DOSYASI</span><h2>Yola çıkmadan önce.</h2></div><p>Beş farklı yol fikri. Yola çıkmadan önce okunacak notlar, duraklar ve dikkat edilmesi gerekenler.</p></div>
+  <div class="guide-grid">
+    @foreach (var guide in Model.GuideRides) {
+      <a class="guide-card" href="/rotalar/@guide.Id"><span class="overline">ÖNERİ ROTA / TÜRKİYE</span><h3>@guide.Title.Replace("Rota rehberi: ", "")</h3><p>@guide.Summary</p><span class="guide-bottom">@guide.StartPoint → @guide.EndPoint <b>↗</b></span></a>
+    }
+    <a class="guide-card guide-card-feature" href="/rehber"><span class="overline">MAMI / SÜRÜŞ REHBERİ</span><h3>Önce hazırlık.<br/>Sonra yol.</h3><p>Rota hazırlığından ekipman kontrolüne, sürüş öncesi bakılacak ayrıntılar.</p><span class="guide-bottom">REHBERE GİT <b>↗</b></span></a>
+  </div>
+</section>
+<section class="cta-band shell"><div><span class="overline">YENİ BİR ROTA MI?</span><h2>Bir yol öner.</h2><p>Güzel bir viraj, izlemeye değer bir manzara ya da bir iş birliği fikri. Bana yaz.</p></div><a href="/iletisim" class="btn btn-mint">İletişime geç <span>↗</span></a></section>
+
+@if (RiderConfig.GetValue<bool>("Rider:Enabled")) {
+<section class="rider-home-feature shell">
+  <div class="rider-home-copy"><span class="overline">05 / SÜRÜCÜ İÇİN ARAÇLAR</span><h2>Garajın burada.<br/><em>Yolun önünde.</em></h2>
+    <p>Yol hikâyelerinin yanında kendi motosikletin için bir alan: bakım, yakıt, sürüş kayıtları ve rota planlama. Hepsi tek bir sade ekranda.</p>
+    <div class="rider-actions"><a href="/garaj" class="rider-btn">GARAJIMA GİT ↗</a><a href="/rota-planlayici" class="rider-btn rider-btn-ghost">ROTA OLUŞTUR ↗</a></div>
+  </div><div class="rider-home-art"><img src="/images/city-ride.webp" alt="MAMI MOTOVLOG motosiklet yolculuğu" loading="lazy" /><span>RIDE MORE / REMEMBER EVERYTHING</span></div>
+</section>
+}

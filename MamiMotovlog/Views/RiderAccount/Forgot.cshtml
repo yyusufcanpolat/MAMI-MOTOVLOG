@@ -1,0 +1,5 @@
+@{ ViewData["Title"] = "Şifre sıfırlama"; }
+<section class="rider-shell"><div class="rider-intro"><h1>ŞİFREMİ <em>UNUTTUM.</em></h1></div>
+<form class="rider-panel rider-form rider-auth" method="post" action="/uye/sifremi-unuttum">@Html.AntiForgeryToken()
+ <p>Doğrulanmış e-posta adresine tek kullanımlık bağlantı göndereceğiz.</p><label>E-posta<input name="email" type="email" required maxlength="180" /></label><button class="rider-btn">BAĞLANTI GÖNDER ↗</button>
+</form></section>

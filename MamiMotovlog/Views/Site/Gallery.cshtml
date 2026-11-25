@@ -1,0 +1,6 @@
+@model List<Album>
+<section class="page-hero shell"><span class="overline">KARE KARE / FOTOĞRAFLAR</span><h1>An defteri.</h1><p>Bazen tek bir fotoğraf bütün günün hikâyesini anlatır.</p></section>
+<section class="shell listing-section gallery-list">
+@if(Model.Count==0){<div class="empty-state"><span>✳</span><h2>Fotoğraf albümleri yakında.</h2><p>Yeni sürüşlerden görüntüler eklendiğinde burada görebileceksin.</p></div>}
+else {<div class="album-grid">@foreach (var a in Model) { var cover=a.Photos.OrderBy(x=>x.SortOrder).FirstOrDefault()?.ImagePath??"/images/three-bikes.webp";<a class="album-card" href="/galeri/@a.Id"><div class="album-cover"><img src="@cover" alt="@a.Title" loading="lazy"/><span class="album-count">@a.Photos.Count FOTOĞRAF</span></div><div class="album-name"><div><span>FOTOĞRAF ALBÜMÜ / @a.CreatedAt.ToString("dd.MM.yyyy")</span><h2>@a.Title</h2><p>@a.Description</p></div><b>↗</b></div></a>}</div>}
+</section>

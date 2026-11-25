@@ -1,0 +1,7 @@
+@model RiderResetVm
+@{ ViewData["Title"] = "Şifreni yenile"; }
+<section class="rider-shell"><div class="rider-intro"><h1>YENİ <em>ŞİFRE.</em></h1></div>
+<form class="rider-panel rider-form rider-auth" method="post" asp-action="Reset" asp-controller="RiderAccount">@Html.AntiForgeryToken()
+ <div asp-validation-summary="All" class="rider-errors"></div><input type="hidden" asp-for="Email" /><input type="hidden" asp-for="Code" />
+ <label>Yeni şifre<input asp-for="Password" type="password" autocomplete="new-password" /></label><button class="rider-btn">ŞİFREMİ GÜNCELLE ↗</button>
+</form></section>

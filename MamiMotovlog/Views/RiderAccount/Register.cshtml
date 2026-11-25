@@ -1,0 +1,10 @@
+@model RiderRegisterVm
+@{ ViewData["Title"] = "Rider Hub · Üye ol"; }
+<section class="rider-shell"><div class="rider-intro"><p class="overline">MAMI / RIDER HUB</p><h1>YOL <em>SENİN.</em></h1><p>Garajını oluştur. Bakımını takip et. Rotanı planla.</p></div>
+<form method="post" class="rider-panel rider-form rider-auth" asp-action="Register" asp-controller="RiderAccount">@Html.AntiForgeryToken()
+ <h2>Hesap oluştur</h2><div asp-validation-summary="All" class="rider-errors"></div>
+ <label>Adın<input asp-for="Name" autocomplete="name" /></label><label>E-posta<input asp-for="Email" type="email" autocomplete="email" /></label>
+ <label>Şifre<input asp-for="Password" type="password" autocomplete="new-password" /></label><small>En az 10 karakter; büyük harf, küçük harf, sayı ve özel karakter.</small>
+ <label>Şifre tekrar<input asp-for="Confirm" type="password" autocomplete="new-password" /></label>
+ <button class="rider-btn" type="submit">KAYDOL VE E-POSTAMI DOĞRULA ↗</button><p>Hesabın var mı? <a href="/uye/giris">Giriş yap</a></p>
+</form></section>

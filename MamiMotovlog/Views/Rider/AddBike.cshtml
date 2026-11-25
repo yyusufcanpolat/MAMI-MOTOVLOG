@@ -1,0 +1,12 @@
+@model RiderBikeVm
+@{ ViewData["Title"] = "Garaj · Motosiklet ekle"; }
+<section class="rider-shell"><div class="rider-intro"><p class="overline">RIDER GARAGE / 01</p><h1>MOTORUNU <em>EKLE.</em></h1><p>Katalogdan seç veya bilgilerini kendin gir. Eksik teknik özellikleri uydurmuyoruz.</p></div>@await Html.PartialAsync("_RiderMenu")
+<form class="rider-panel rider-form" method="post" asp-action="AddBike" asp-controller="Rider">@Html.AntiForgeryToken()<div asp-validation-summary="All" class="rider-errors"></div>
+ <div class="rider-toggle"><button id="catalog-mode" type="button" class="active">KATALOGDAN SEÇ</button><button id="manual-mode" type="button">MANUEL EKLE</button></div>
+ <div id="catalog-selection"><div class="rider-form-grid"><label>Marka<select id="brand-select"><option value="">Marka seç</option></select></label><label>Model<select id="model-select" disabled><option value="">Model seç</option></select></label><label>Yıl / versiyon (varsa)<select id="variant-select" disabled><option value="">Yıl / versiyon seç</option></select></label></div><p class="rider-muted">Katalogdaki modellerin tüm yıl ve versiyon bilgileri henüz tamamlanmamış olabilir. Yılını alttan girebilirsin.</p></div>
+ <input type="hidden" asp-for="VariantId" id="bike-variant" />
+ <div class="rider-form-grid"><label>Marka<input asp-for="BrandName" required id="bike-brand" maxlength="90" /></label><label>Model<input asp-for="ModelName" required id="bike-model" maxlength="110" /></label><label>Model yılı<input asp-for="ModelYear" required type="number" min="1950" max="2035" /></label><label>Versiyon (isteğe bağlı)<input asp-for="Edition" maxlength="100" /></label><label>Güncel kilometre<input asp-for="OdometerKm" required type="number" min="0" /></label><label>Ortalama tüketim (L/100 km) (isteğe bağlı)<input asp-for="AverageFuelL100" type="number" step="0.01" min="0.1" placeholder="Örn. 4.2" /></label><label>Depo (litre) (isteğe bağlı)<input asp-for="TankLitres" type="number" step="0.01" min="0.5" /></label></div>
+ <label>Notlar (isteğe bağlı)<textarea asp-for="Notes" rows="3" maxlength="1000"></textarea></label>
+ <button type="submit" class="rider-btn">GARAJIMA KAYDET ↗</button>
+</form></section>
+@section Scripts { <script src="/js/rider-catalog.js" asp-append-version="true" defer></script> }

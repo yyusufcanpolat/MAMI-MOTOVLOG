@@ -1,0 +1,6 @@
+@model List<Ride>
+<section class="page-hero shell"><span class="overline">YOL GÜNLÜĞÜ / ROTALAR</span><h1>Yol hikâyeleri.</h1><p>Yol notları ve sürüş fikirleri. “Rota rehberi” başlıklı yazılar öneridir; doğrulanmış kişisel sürüş günlüğü değildir.</p></section>
+<section class="shell listing-section">
+@if(Model.Count==0){<div class="empty-state"><span>↗</span><h2>İlk rota yolda.</h2><p>Gerçek gezi rotalarım paylaşıldığında başlangıç, varış, duraklar ve kilometre bilgileriyle burada görünecek.</p><a class="btn btn-outline" href="/galeri">YOL FOTOĞRAFLARINI KEŞFET <b>↗</b></a></div>}
+else {<div class="ride-list">@foreach(var r in Model){<a href="/rotalar/@r.Id" class="ride-row"><div><span class="overline">@(r.Title.StartsWith("Rota rehberi:") ? "ÖNERİ ROTA / GEZİ REHBERİ" : "GEZİ YAZISI / " + r.CreatedAt.ToString("dd.MM.yyyy"))</span><h2>@r.Title</h2><p>@r.Summary</p></div><div class="ride-row-end">@if(!string.IsNullOrEmpty(r.StartPoint)||!string.IsNullOrEmpty(r.EndPoint)){<small>@r.StartPoint → @r.EndPoint</small>}<span>↗</span></div></a>}</div>}
+</section>

@@ -1,0 +1,4 @@
+@model List<RiderTrip>
+@{ ViewData["Title"] = "Favori rotalarım"; }
+<section class="rider-shell"><div class="rider-intro"><p class="overline">RIDER HUB / FAVORİLER</p><h1>SEVDİĞİM <em>YOLLAR.</em></h1></div>@await Html.PartialAsync("_RiderMenu")
+<div class="rider-cards">@foreach(var t in Model){<article class="rider-panel rider-trip-card"><span class="overline">♥ FAVORİ</span><h2>@t.Title</h2><p>@t.StartLabel → @t.EndLabel</p><p>@t.DistanceKm.ToString("N1") km</p><a href="/topluluk/rotalar/@t.Id">ROTAYI GÖR ↗</a><form method="post" action="/topluluk/rotalar/@t.Id/favori">@Html.AntiForgeryToken()<button class="rider-btn rider-btn-ghost">FAVORİDEN ÇIKAR</button></form></article>}</div>@if(!Model.Any()){<div class="rider-panel">Henüz favori rotan yok. <a href="/topluluk/rotalar">Topluluk rotalarını keşfet ↗</a></div>}</section>

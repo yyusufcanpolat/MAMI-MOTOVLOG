@@ -1,0 +1,6 @@
+@model RiderFuelVm
+@{ ViewData["Title"] = "Yakıt kaydı"; }
+<section class="rider-shell"><div class="rider-intro"><p class="overline">RIDER GARAGE / YAKIT</p><h1>DEPO <em>GÜNLÜĞÜ.</em></h1><p>Gerçek tüketim için önce depoyu tamamen doldurup “tam depo” olarak kaydet. Kullanım sonrasında tekrar tam doldurarak yeni kilometre ve litreyi gir; aradaki kısmi dolumlar da hesaplamaya katılır.</p></div>@await Html.PartialAsync("_RiderMenu")
+<form class="rider-panel rider-form" method="post" action="/garaj/yakit">@Html.AntiForgeryToken()<div asp-validation-summary="All" class="rider-errors"></div><input asp-for="BikeId" type="hidden" />
+<div class="rider-form-grid"><label>Tarih<input asp-for="Date" required type="date" /></label><label>Dolumdaki kilometre<input asp-for="OdometerKm" required type="number" /></label><label>Alınan litre<input asp-for="Litres" required type="number" min="0.01" step="0.01" /></label><label>Ödenen ₺<input asp-for="AmountTry" required type="number" min="0.01" step="0.01" /></label></div><label>Dolum türü (zorunlu)<select asp-for="FullTank" required><option value="true">Tam depo</option><option value="false">Kısmi dolum</option></select></label><button class="rider-btn">YAKITI KAYDET ↗</button>
+</form></section>
